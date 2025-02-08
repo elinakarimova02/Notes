@@ -16,6 +16,8 @@
 		643A8E002D564A9C00487214 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 643A8DF02D564A9C00487214 /* Assets.xcassets */; };
 		643A8E022D564A9C00487214 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 643A8DF52D564A9C00487214 /* LaunchScreen.storyboard */; };
 		643A8E062D56566800487214 /* AuthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643A8E052D56566800487214 /* AuthHeaderView.swift */; };
+		643A8E082D57C04C00487214 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643A8E072D57C04C00487214 /* CustomTextField.swift */; };
+		643A8E0A2D57CB4700487214 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643A8E092D57CB4700487214 /* CustomButton.swift */; };
 		758E214A25C170B1EAE6CE49 /* Pods_Notes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C55301FF2E20C2DF16B6108 /* Pods_Notes.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +34,8 @@
 		643A8DF72D564A9C00487214 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		643A8DF82D564A9C00487214 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		643A8E052D56566800487214 /* AuthHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHeaderView.swift; sourceTree = "<group>"; };
+		643A8E072D57C04C00487214 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		643A8E092D57CB4700487214 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		64BD216F2D552BF400959E4A /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6694371F750205A6B0A0042 /* Pods-Notes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notes.debug.xcconfig"; path = "Target Support Files/Pods-Notes/Pods-Notes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				643A8E052D56566800487214 /* AuthHeaderView.swift */,
+				643A8E072D57C04C00487214 /* CustomTextField.swift */,
+				643A8E092D57CB4700487214 /* CustomButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -241,8 +247,10 @@
 			files = (
 				643A8DFA2D564A9C00487214 /* AppDelegate.swift in Sources */,
 				643A8DFB2D564A9C00487214 /* ForgotPasswordController.swift in Sources */,
+				643A8E0A2D57CB4700487214 /* CustomButton.swift in Sources */,
 				643A8DFC2D564A9C00487214 /* HomeController.swift in Sources */,
 				643A8DFD2D564A9C00487214 /* LoginController.swift in Sources */,
+				643A8E082D57C04C00487214 /* CustomTextField.swift in Sources */,
 				643A8DFE2D564A9C00487214 /* RegisterController.swift in Sources */,
 				643A8DFF2D564A9C00487214 /* SceneDelegate.swift in Sources */,
 				643A8E062D56566800487214 /* AuthHeaderView.swift in Sources */,
