@@ -9,7 +9,13 @@ import UIKit
 import FirebaseFirestoreInternal
 import FirebaseAuth
 
+protocol SettingsControllerDelegate: AnyObject {
+    func didDeleteAllNotes()
+}
+
 class SettingsController: UIViewController {
+    
+    weak var delegate: SettingsControllerDelegate?
     
     private var settingsView: SettingsView {
         return view as! SettingsView
@@ -38,16 +44,34 @@ extension SettingsController: SettingsViewDelegate {
             message: "Are you sure you want to delete all notes? This action cannot be undone.",
             preferredStyle: .alert
         )
-        
+
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.clearAllNotes()
+            NoteManager.shared.deleteAllNotes { success in
+                DispatchQueue.main.async {
+                    if success {
+                        print("All notes deleted.")
+                        
+                        self.delegate?.didDeleteAllNotes()
+                        
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        let errorAlert = UIAlertController(
+                            title: "Error",
+                            message: "Failed to delete all notes.",
+                            preferredStyle: .alert
+                        )
+                        errorAlert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                        self.present(errorAlert, animated: true)
+                    }
+                }
+            }
         }
-        
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
+
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
-        
+
         present(alert, animated: true)
     }
     
@@ -84,29 +108,37 @@ extension SettingsController: SettingsViewDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
-    
+
     private func clearAllNotes() {
         guard let userUID = Auth.auth().currentUser?.uid else {
             return
         }
         
-        let db = Firestore.firestore()
-        let notesCollection = db.collection("notes").whereField("userUID", isEqualTo: userUID)
+        let notesCollection = Firestore.firestore()
+            .collection("users").document(userUID)
+            .collection("notes")
         
         notesCollection.getDocuments { snapshot, error in
             if let error = error {
-                print("Error deleting notes: \(error.localizedDescription)")
+                print("Error fetching notes for deletion: \(error.localizedDescription)")
                 return
             }
             
-            let batch = db.batch()
-            snapshot?.documents.forEach { batch.deleteDocument($0.reference) }
+            guard let documents = snapshot?.documents, !documents.isEmpty else {
+                print("No notes found for deletion.")
+                return
+            }
+            
+            let batch = Firestore.firestore().batch()
+            
+            for document in documents {
+                batch.deleteDocument(document.reference)
+            }
             
             batch.commit { batchError in
                 DispatchQueue.main.async {
-                    if batchError == nil {
-                        self.navigationController?.popViewController(animated: true)
-                    } else {
+                    if let batchError = batchError {
+                        print("Error deleting notes: \(batchError.localizedDescription)")
                         let alert = UIAlertController(
                             title: "Error",
                             message: "Failed to delete all notes.",
@@ -114,6 +146,9 @@ extension SettingsController: SettingsViewDelegate {
                         )
                         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
                         self.present(alert, animated: true)
+                    } else {
+                        print("All notes deleted successfully!")
+                        self.navigationController?.popViewController(animated: true)
                     }
                 }
             }

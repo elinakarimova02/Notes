@@ -67,8 +67,10 @@ class HomeController: UIViewController {
     
     @objc private func settingsButtonTapped() {
         let vc = SettingsController()
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
+
     
     private func openNoteView(note: Note? = nil) {
         let noteViewController = NoteController(note: note)
@@ -128,5 +130,12 @@ extension HomeController: UISearchBarDelegate {
         DispatchQueue.main.async {
             self.homeView.notesCollectionView.reloadData()
         }
+    }
+}
+
+extension HomeController: SettingsControllerDelegate {
+    func didDeleteAllNotes() {
+        print("Refreshing notes after deletion")
+        fetchNotes()
     }
 }
