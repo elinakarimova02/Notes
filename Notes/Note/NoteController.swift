@@ -43,6 +43,7 @@ class NoteController: UIViewController {
     
     private func setupActions() {
         noteView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        noteView.copyButton.addTarget(self, action: #selector(copyButtonTapped), for: .touchUpInside)
     }
     
     private func loadNoteData() {
@@ -89,6 +90,11 @@ class NoteController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc func copyButtonTapped(){
+        guard let textToCopy = noteView.textBox.text else { return }
+        UIPasteboard.general.string = textToCopy
     }
     
     @objc private func trashButtonTapped() {

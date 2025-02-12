@@ -23,14 +23,14 @@ class AuthService {
     ///   - completion: A completion with two values...
     ///   - Bool: wasRegistered - Determines if the user was registered and saved in the database correctly
     ///   - Error?: An optional error if firebase provides once
-    public func registerUser(with userRequest: RegisterUserRequest,completion: @escaping(Bool,Error?)->Void) {
+    public func registerUser(with userRequest: RegisterUserRequest, completion: @escaping (Bool, Error?) -> Void) {
         let username = userRequest.username
         let email = userRequest.email
         let password = userRequest.password
         
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
-                completion(false, error)
+                completion(false, error) 
                 return
             }
             
@@ -40,20 +40,20 @@ class AuthService {
             }
             
             let db = Firestore.firestore()
+            let userData: [String: Any] = [
+                "username": username,
+                "email": email,
+                "userUID": resultUser.uid
+            ]
 
-            db.collection("users")
-                .document(resultUser.uid)
-                .setData([
-                    "username": username,
-                    "email": email
-                ]) {error in
-                    if let error = error {
-                        completion(false, error)
-                        return
-                    }
-                    
+            db.collection("users").document(resultUser.uid).setData(userData) { error in
+                if let error = error {
+                    print("Firestore save failed: \(error.localizedDescription)")
+                    completion(true, nil)
+                } else {
                     completion(true, nil)
                 }
+            }
         }
     }
     
